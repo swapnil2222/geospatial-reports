@@ -97,14 +97,20 @@
         <span class="expenditure-label">Demographics</span>
         <doughnut-chart
           v-if="
-            fetchStats !== undefined && fetchStats.datacollection !== undefined
+            fetchStats !== undefined &&
+              fetchStats.datacollection !== undefined &&
+              fetchStats.datacollection.datasets.length !== 0
           "
           :chart-data="fetchStats.datacollection"
         ></doughnut-chart>
+        <!-- {{ fetchStats.datacollection }} -->
         <div
           class="row"
           v-if="
-            fetchStats !== undefined && fetchStats.datacollection == undefined
+            (fetchStats !== undefined &&
+              fetchStats.datacollection == undefined) ||
+              (fetchStats.datacollection !== undefined &&
+                fetchStats.datacollection.datasets.length === 0)
           "
         >
           <div class="col no-stats-label">
@@ -133,17 +139,10 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-// import axios from "axios";
 import constants from "@/constants/constants.js";
-// import VueCharts from "vue-chartjs";
-// import { Line } from "vue-chartjs";
 import DoughnutChart from "@/charts/DoughnutChart.js";
 import BarChart from "@/charts/BarChart.js";
-import { LMap, LTileLayer, LMarker, LGeoJson } from "vue2-leaflet";
-
+import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
 export default {
   name: "home",
   components: {
@@ -151,7 +150,6 @@ export default {
     BarChart,
     LMap,
     LTileLayer,
-    LMarker,
     LGeoJson
   },
   data() {
@@ -217,7 +215,7 @@ export default {
         if (foundExpenditure === undefined) {
           return stats;
         }
-        console.log("foundExpenditure", foundExpenditure);
+        // console.log("foundExpenditure", foundExpenditure);
         stats.barDatacollection = { labels: [], datasets: [] };
         let datasetObj = { data: [] };
         datasetObj.label = "Expenditure for " + this.inputValue;
@@ -230,7 +228,7 @@ export default {
           }
         }
         stats.barDatacollection.datasets.push(datasetObj);
-        console.log("stats.barDatacollection", stats.barDatacollection);
+        // console.log("stats.barDatacollection", stats.barDatacollection);
         return stats;
       }
       return {};
@@ -345,16 +343,16 @@ export default {
 .count {
   display: block;
   font-size: 20px;
-  color: cornflowerblue;
+  color: cadetblue;
   font-weight: bold;
 }
 .address {
   background-color: #fff;
-  color: cornflowerblue;
+  color: cadetblue;
   padding: 10px;
 }
 .expenditure-label {
-  color: cornflowerblue;
+  color: cadetblue;
   float: left;
   font-size: 30px;
 }
@@ -362,11 +360,17 @@ export default {
   padding-top: 20%;
 }
 .label {
-  color: cornflowerblue;
+  color: cadetblue;
 }
 .sub-title {
   display: block;
   font-size: small;
   /* clear: both; */
+}
+@media screen and (max-width: 576px) {
+  .flex-container,
+  .navbar {
+    display: block;
+  }
 }
 </style>
