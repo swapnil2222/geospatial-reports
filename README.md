@@ -1,8 +1,9 @@
 
 # geospatial-reports
-This project will generate the reports based on given dataset.
+This project will generate reports based on the given dataset.
 
 # Features :
+- Fetching the required dataset from the CDN.
 - Charts Components including Bar chart and Doughnut chart.
 - Vue Leaflet library for displaying OpenStreetMap.
 - PWA Support (application can be run in offline mode also.)
